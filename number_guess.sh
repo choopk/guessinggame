@@ -6,8 +6,8 @@ echo "Enter your username:"
 read USERNAME
 
 USERNAME_AVAIL=$($PSQL "select user_id from users where username='$USERNAME'")
-GAMES_PLAYED=$($PSQL "select count(*) from users inner join games using(user_id) where username = '$USERNAME'")
-BEST_GAME=$($PSQL "select MIN(number_guesses) from users inner join games using(user_id) where username = '$USERNAME'")
+GAMES_PLAYED=$($PSQL "SELECT COUNT(*) FROM users INNER JOIN games USING(user_id) where username = '$USERNAME'")
+BEST_GAME=$($PSQL "SELECT MIN(number_guesses) FROM users INNER JOIN games using(user_id) where username = '$USERNAME'")
 
 if [[ -z $USERNAME_AVAIL ]] 
 then
@@ -18,7 +18,6 @@ then
 fi
 
 RANDOM_NUM=$((1 + $RANDOM % 1000))
-echo secret $RANDOM_NUM
 GUESS=1
 echo "Guess the secret number between 1 and 1000:"
 

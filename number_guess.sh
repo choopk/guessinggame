@@ -5,13 +5,13 @@ PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
 echo "Enter your username:"
 read USERNAME
 
-USERNAME_AVAIL=$($PSQL "select user_id from users where username='$USERNAME'")
-GAMES_PLAYED=$($PSQL "SELECT COUNT(*) FROM users INNER JOIN games USING(user_id) where username = '$USERNAME'")
-BEST_GAME=$($PSQL "SELECT MIN(number_guesses) FROM users INNER JOIN games using(user_id) where username = '$USERNAME'")
+USERNAME_AVAIL=$($PSQL "SELECT username FROM users WHERE username='$USERNAME'")
+GAMES_PLAYED=$($PSQL "SELECT COUNT(*) FROM users INNER JOIN games USING(user_id) WHERE username = '$USERNAME'")
+BEST_GAME=$($PSQL "SELECT MIN(number_guesses) FROM users INNER JOIN games USING(user_id) WHERE username = '$USERNAME'")
 
 if [[ -z $USERNAME_AVAIL ]] 
 then
-  INSERT_USER=$($PSQL "Insert into users(username) values('$USERNAME')")
+  INSERT_USER=$($PSQL "INSERT INTO users(username) VALUES('$USERNAME')")
   echo "Welcome, $USERNAME! It looks like this is your first time here."
   else
   echo "Welcome back, $USERNAME! You have played $GAMES_PLAYED games, and your best game took $BEST_GAME guesses."
@@ -51,6 +51,4 @@ else
 fi
 
 USER_ID=$($PSQL "select user_id from users where username='$USERNAME'")
-echo what is username $USERNAME
-echo what is userid $USER_ID
 INSERT_GAME=$($PSQL "Insert into games(number_guesses, user_id) values($GUESS, $USER_ID)")
